@@ -14,7 +14,12 @@ find_package(rclcpp REQUIRED)
 find_package(geometry_msgs REQUIRED)
 find_package(sensor_msgs REQUIRED)
 
-add_executable(self_drive_node src/self_drive.cpp)
+include_directories(include)
+
+add_executable(self_drive_node
+  src/main.cpp
+  src/self_drive.cpp
+)
 
 ament_target_dependencies(self_drive_node
   rclcpp
@@ -24,6 +29,10 @@ ament_target_dependencies(self_drive_node
 
 install(TARGETS self_drive_node
   DESTINATION lib/${PROJECT_NAME}
+)
+
+install(DIRECTORY include/
+  DESTINATION include
 )
 
 ament_package()
