@@ -5,7 +5,6 @@
   <version>0.0.1</version>
   <description>Turtlebot3 Self Driving Node </description>
   
-  <!-- 수정 필요: 본인 정보 -->
   <maintainer email="khh020712@naver.com">KimJaeYun</maintainer>
   <license>Apache-2.0</license>
 
