@@ -7,14 +7,15 @@ using std::placeholders::_1;
 SelfDrive::SelfDrive() 
 : Node("self_drive"), step_counter_(0)
 {
-  auto qos = rclcpp::QoS(rclcpp::KeepLast(1)).reliability(rclcpp::ReliabilityPolicy::BestEffort);
+  auto scan_qos = rclcpp::QoS(rclcpp::KeepLast(1));
+  scan_qos.reliability(rclcpp::ReliabilityPolicy::BestEffort);
 
   scan_sub_ = this->create_subscription<sensor_msgs::msg::LaserScan>(
-      "/scan", qos, std::bind(&SelfDrive::scan_callback, this, _1));
+      "/scan", scan_qos, std::bind(&SelfDrive::scan_callback, this, _1));
+  auto vel_qos = rclcpp::QoS(rclcpp::KeepLast(1));
   
-  vel_pub_ = this->create_publisher<geometry_msgs::msg::TwistStamped>("/cmd_vel", qos);
+  vel_pub_ = this->create_publisher<geometry_msgs::msg::TwistStamped>("/cmd_vel", vel_qos);
 }
-
 // LiDAR 데이터 평균 계산
 double SelfDrive::get_scan_average(
   const sensor_msgs::msg::LaserScan::SharedPtr scan, int center_angle, int window)
